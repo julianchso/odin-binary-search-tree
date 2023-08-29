@@ -8,11 +8,26 @@ class Node {
   }
 }
 
+const buildTree = (arr, start = 0, end = arr.length - 1) => {
+  if (start > end) return null;
+  console.log(end);
+  let mid = Math.floor((start + end) / 2);
+  // console.log(mid);
+
+  let root = arr[mid];
+  let node = new Node(root);
+
+  node.left = buildTree(arr, start, mid - 1);
+  node.right = buildTree(arr, mid + 1, end);
+
+  return node;
+};
+
 class Tree {
   constructor(arr) {
     const sortedArr = this.mergeSort(this.removeDuplicates(arr));
     console.log(typeof sortedArr);
-    this.root = this.buildTree(sortedArr);
+    this.root = buildTree(sortedArr);
   }
 
   removeDuplicates(arr) {
@@ -60,21 +75,6 @@ class Tree {
     }
     return sortedArr;
   }
-
-  buildTree(sortedArr, start = 0, end = sortedArr.length - 1) {
-    console.log(sortedArr.length);
-    if (start > end) return null;
-
-    let mid = Math.floor((start + end) / 2);
-
-    let root = sortedArr[mid];
-    let node = new Node(root);
-
-    node.left = this.buildTree(sortedArr, start, mid - 1);
-    node.right = this.buildTree(sortedArr, mid + 1, end);
-
-    return node;
-  }
 }
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -93,7 +93,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 console.log(tree);
 console.log(typeof tree);
-prettyPrint(tree.buildTree());
+prettyPrint(buildTree(tree));
 
 // pseudocode for Binary Search Tree
 // const createBST(arr, start, end) {
