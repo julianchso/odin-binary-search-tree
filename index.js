@@ -13,27 +13,27 @@ const tree = (arr) => {
   root = buildTree(sortedArr);
 
   // TODO:
-  // const insert = (val, root = this.root) => {
-  //   // console.log(root.data);
-  //   console.log(this.root);
-  //   if (this.root.data == val) return;
+  const insert = (sortedArr, val) => {
+    let mid = Math.floor(sortedArr.length / 2);
+    let root = sortedArr[mid];
+    console.log(root);
+    if (root == val) return;
 
-  //   if (root == null) {
-  //     root = createNode(val);
-  //     return root;
-  //   }
+    if (root == null) {
+      root.data = val;
+      return root;
+    }
 
-  //   if (val < root.data) {
-  //     root.left = insert(root.left, val);
-  //   } else {
-  //     root.right = insert(root.right, val);
-  //   }
-  //   return root;
-  // };
+    if (val < root.data) {
+      root.left = insert(root.left, val);
+    } else {
+      root.right = insert(root.right, val);
+    }
+    return root;
+  };
   // TODO end
 
-  return { root };
-  // return { root, insert };
+  return root;
 };
 
 const buildTree = (sortedArr, start = 0, end = sortedArr.length - 1) => {
