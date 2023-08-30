@@ -1,82 +1,83 @@
 // Write an insert and delete functions which accepts a value...
 
-class Node {
-  constructor(data) {
-    this.data = data;
-    this.left = null;
-    this.right = null;
-  }
-}
+const createNode = (data, left, right) => {
+  return {
+    data: data,
+    left: left,
+    right: right,
+  };
+};
 
-class Tree {
-  constructor(arr) {
-    const sortedArr = this.mergeSort(this.removeDuplicates(arr));
-    console.log(typeof sortedArr);
-    this.root = this.buildTree(sortedArr);
-  }
+const tree = (arr) => {
+  const sortedArr = mergeSort(removeDuplicates(arr));
+  root = buildTree(sortedArr);
 
-  removeDuplicates(arr) {
-    const arrNoDups = [];
-    Array.from(arr).forEach((i) => {
-      if (!arrNoDups.includes(i)) {
-        arrNoDups.push(i);
-      }
-    });
-    return arrNoDups;
-  }
+  return root;
+};
 
-  // merge sort function
-  mergeSort(arr) {
-    if (arr.length < 2) return arr;
+const buildTree = (sortedArr, start = 0, end = sortedArr.length - 1) => {
+  if (start > end) return null;
 
-    const mid = Math.floor(arr.length / 2);
-    const leftArr = arr.slice(0, mid);
-    const rightArr = arr.slice(mid);
-    return this.merge(this.mergeSort(leftArr), this.mergeSort(rightArr));
-  }
+  let mid = Math.floor((start + end) / 2);
 
-  merge(leftArr, rightArr) {
-    const sortedArr = [];
-    let countL = 0;
-    let countR = 0;
-    while (countL < leftArr.length && countR < rightArr.length) {
-      if (leftArr[countL] < rightArr[countR]) {
-        sortedArr.push(leftArr[countL]);
-        countL++;
-      } else {
-        sortedArr.push(rightArr[countR]);
-        countR++;
-      }
+  let root = sortedArr[mid];
+  let node = createNode(root);
+
+  node.left = buildTree(sortedArr, start, mid - 1);
+  node.right = buildTree(sortedArr, mid + 1, end);
+
+  return node;
+};
+
+const insert = () => {};
+
+const removeDuplicates = (arr) => {
+  const arrNoDups = [];
+  Array.from(arr).forEach((i) => {
+    if (!arrNoDups.includes(i)) {
+      arrNoDups.push(i);
     }
+  });
+  return arrNoDups;
+};
 
-    while (countL < leftArr.length) {
+// merge sort function
+const mergeSort = (arr) => {
+  if (arr.length < 2) return arr;
+
+  const mid = Math.floor(arr.length / 2);
+  const leftArr = arr.slice(0, mid);
+  const rightArr = arr.slice(mid);
+  return merge(mergeSort(leftArr), mergeSort(rightArr));
+};
+
+const merge = (leftArr, rightArr) => {
+  const sortedArr = [];
+  let countL = 0;
+  let countR = 0;
+  while (countL < leftArr.length && countR < rightArr.length) {
+    if (leftArr[countL] < rightArr[countR]) {
       sortedArr.push(leftArr[countL]);
       countL++;
-    }
-
-    while (countR < rightArr.length) {
+    } else {
       sortedArr.push(rightArr[countR]);
       countR++;
     }
-    return sortedArr;
   }
 
-  buildTree(sortedArr, start = 0, end = sortedArr.length - 1) {
-    console.log(sortedArr.length);
-    if (start > end) return null;
-
-    let mid = Math.floor((start + end) / 2);
-
-    let root = sortedArr[mid];
-    let node = new Node(root);
-
-    node.left = this.buildTree(sortedArr, start, mid - 1);
-    node.right = this.buildTree(sortedArr, mid + 1, end);
-
-    return node;
+  while (countL < leftArr.length) {
+    sortedArr.push(leftArr[countL]);
+    countL++;
   }
-}
 
+  while (countR < rightArr.length) {
+    sortedArr.push(rightArr[countR]);
+    countR++;
+  }
+  return sortedArr;
+};
+
+// Console log tree visual
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node === null) {
     return;
@@ -90,10 +91,10 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-console.log(tree);
-console.log(typeof tree);
-prettyPrint(tree.buildTree());
+const newTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+console.log(newTree);
+console.log(typeof newTree);
+prettyPrint(newTree);
 
 // pseudocode for Binary Search Tree
 // const createBST(arr, start, end) {
