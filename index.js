@@ -12,6 +12,27 @@ const tree = (arr) => {
   const sortedArr = mergeSort(removeDuplicates(arr));
   root = buildTree(sortedArr);
 
+  // TODO:
+  const insert = (sortedArr, val) => {
+    let mid = Math.floor(sortedArr.length / 2);
+    let root = sortedArr[mid];
+    console.log(root);
+    if (root == val) return;
+
+    if (root == null) {
+      root.data = val;
+      return root;
+    }
+
+    if (val < root.data) {
+      root.left = insert(root.left, val);
+    } else {
+      root.right = insert(root.right, val);
+    }
+    return root;
+  };
+  // TODO end
+
   return root;
 };
 
@@ -28,8 +49,6 @@ const buildTree = (sortedArr, start = 0, end = sortedArr.length - 1) => {
 
   return node;
 };
-
-const insert = () => {};
 
 const removeDuplicates = (arr) => {
   const arrNoDups = [];
@@ -93,7 +112,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const newTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 console.log(newTree);
-console.log(typeof newTree);
+console.log(insert(newTree, 10));
 prettyPrint(newTree);
 
 // pseudocode for Binary Search Tree
