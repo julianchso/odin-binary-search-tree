@@ -13,27 +13,27 @@ const tree = (arr) => {
   root = buildTree(sortedArr);
 
   // TODO:
-  const insert = (sortedArr, val) => {
-    let mid = Math.floor(sortedArr.length / 2);
-    let root = sortedArr[mid];
-    console.log(root);
-    if (root == val) return;
+  // const insert = (val, root = this.root) => {
+  //   // console.log(root.data);
+  //   console.log(this.root);
+  //   if (this.root.data == val) return;
 
-    if (root == null) {
-      root.data = val;
-      return root;
-    }
+  //   if (root == null) {
+  //     root = createNode(val);
+  //     return root;
+  //   }
 
-    if (val < root.data) {
-      root.left = insert(root.left, val);
-    } else {
-      root.right = insert(root.right, val);
-    }
-    return root;
-  };
+  //   if (val < root.data) {
+  //     root.left = insert(root.left, val);
+  //   } else {
+  //     root.right = insert(root.right, val);
+  //   }
+  //   return root;
+  // };
   // TODO end
 
-  return root;
+  return { root };
+  // return { root, insert };
 };
 
 const buildTree = (sortedArr, start = 0, end = sortedArr.length - 1) => {
@@ -112,7 +112,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const newTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 console.log(newTree);
-console.log(insert(newTree, 10));
+// console.log(newTree.insert(10));
 prettyPrint(newTree);
 
 // pseudocode for Binary Search Tree
