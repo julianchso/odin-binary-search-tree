@@ -1,6 +1,6 @@
 // Write an insert and delete functions which accepts a value...
 
-const createNode = (data, left, right) => {
+const createNode = (data, left = null, right = null) => {
   return {
     data: data,
     left: left,
@@ -11,29 +11,21 @@ const createNode = (data, left, right) => {
 const tree = (arr) => {
   const sortedArr = mergeSort(removeDuplicates(arr));
   root = buildTree(sortedArr);
-
-  // TODO:
-  const insert = (sortedArr, val) => {
-    let mid = Math.floor(sortedArr.length / 2);
-    let root = sortedArr[mid];
-    console.log(root);
-    if (root == val) return;
-
+  const insert = (val, root = this.root) => {
     if (root == null) {
-      root.data = val;
+      root = createNode(val);
       return root;
     }
 
     if (val < root.data) {
-      root.left = insert(root.left, val);
+      root.left = insert(val, root.left);
     } else {
-      root.right = insert(root.right, val);
+      root.right = insert(val, root.right);
     }
     return root;
   };
-  // TODO end
 
-  return root;
+  return { root, insert };
 };
 
 const buildTree = (sortedArr, start = 0, end = sortedArr.length - 1) => {
@@ -46,7 +38,6 @@ const buildTree = (sortedArr, start = 0, end = sortedArr.length - 1) => {
 
   node.left = buildTree(sortedArr, start, mid - 1);
   node.right = buildTree(sortedArr, mid + 1, end);
-
   return node;
 };
 
@@ -112,7 +103,8 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const newTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 console.log(newTree);
-// console.log(newTree.insert(10));
+console.log(newTree.insert(0));
+console.log(newTree);
 prettyPrint(newTree);
 
 // pseudocode for Binary Search Tree
